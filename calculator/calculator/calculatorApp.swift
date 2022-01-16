@@ -1,14 +1,14 @@
 //
-//  ios_exerciseApp.swift
-//  ios-exercise
+//  calculatorApp.swift
+//  calculator
 //
-//  Created by yan on 8/1/2022.
+//  Created by yan on 15/1/2022.
 //
 
 import SwiftUI
 
 @main
-struct ios_exerciseApp: App {
+struct calculatorApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

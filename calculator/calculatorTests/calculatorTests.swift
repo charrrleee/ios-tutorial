@@ -1,14 +1,14 @@
 //
-//  ios_exerciseTests.swift
-//  ios-exerciseTests
+//  calculatorTests.swift
+//  calculatorTests
 //
-//  Created by yan on 8/1/2022.
+//  Created by yan on 15/1/2022.
 //
 
 import XCTest
-@testable import ios_exercise
+@testable import calculator
 
-class ios_exerciseTests: XCTestCase {
+class calculatorTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
