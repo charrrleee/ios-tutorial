@@ -14,6 +14,9 @@
 		2C87F745279318940083B528 /* calculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87F744279318940083B528 /* calculatorTests.swift */; };
 		2C87F74F279318940083B528 /* calculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87F74E279318940083B528 /* calculatorUITests.swift */; };
 		2C87F751279318940083B528 /* calculatorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87F750279318940083B528 /* calculatorUITestsLaunchTests.swift */; };
+		CE95D0872796BE4000CA0F9C /* calculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95D0862796BE4000CA0F9C /* calculatorView.swift */; };
+		CE95D0892796BE6400CA0F9C /* calculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95D0882796BE6400CA0F9C /* calculatorModel.swift */; };
+		CE95D08B2796BE7C00CA0F9C /* calculatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE95D08A2796BE7C00CA0F9C /* calculatorViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,10 @@
 		2C87F74A279318940083B528 /* calculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calculatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C87F74E279318940083B528 /* calculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorUITests.swift; sourceTree = "<group>"; };
 		2C87F750279318940083B528 /* calculatorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CE95D0862796BE4000CA0F9C /* calculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorView.swift; sourceTree = "<group>"; };
+		CE95D0882796BE6400CA0F9C /* calculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorModel.swift; sourceTree = "<group>"; };
+		CE95D08A2796BE7C00CA0F9C /* calculatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorViewModel.swift; sourceTree = "<group>"; };
+		CE95D08C2796BF6B00CA0F9C /* .gitignore.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .gitignore.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +81,7 @@
 		2C87F727279318920083B528 = {
 			isa = PBXGroup;
 			children = (
+				CE95D08C2796BF6B00CA0F9C /* .gitignore.md */,
 				2C87F732279318920083B528 /* calculator */,
 				2C87F743279318940083B528 /* calculatorTests */,
 				2C87F74D279318940083B528 /* calculatorUITests */,
@@ -94,6 +102,9 @@
 		2C87F732279318920083B528 /* calculator */ = {
 			isa = PBXGroup;
 			children = (
+				CE95D0852796BE2700CA0F9C /* view */,
+				CE95D0842796BE1F00CA0F9C /* model */,
+				CE95D0832796BE1300CA0F9C /* viewModel */,
 				2C87F733279318920083B528 /* calculatorApp.swift */,
 				2C87F735279318920083B528 /* ContentView.swift */,
 				2C87F737279318940083B528 /* Assets.xcassets */,
@@ -125,6 +136,30 @@
 				2C87F750279318940083B528 /* calculatorUITestsLaunchTests.swift */,
 			);
 			path = calculatorUITests;
+			sourceTree = "<group>";
+		};
+		CE95D0832796BE1300CA0F9C /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CE95D08A2796BE7C00CA0F9C /* calculatorViewModel.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		CE95D0842796BE1F00CA0F9C /* model */ = {
+			isa = PBXGroup;
+			children = (
+				CE95D0882796BE6400CA0F9C /* calculatorModel.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		CE95D0852796BE2700CA0F9C /* view */ = {
+			isa = PBXGroup;
+			children = (
+				CE95D0862796BE4000CA0F9C /* calculatorView.swift */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +292,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE95D08B2796BE7C00CA0F9C /* calculatorViewModel.swift in Sources */,
 				2C87F736279318920083B528 /* ContentView.swift in Sources */,
+				CE95D0872796BE4000CA0F9C /* calculatorView.swift in Sources */,
 				2C87F734279318920083B528 /* calculatorApp.swift in Sources */,
+				CE95D0892796BE6400CA0F9C /* calculatorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
