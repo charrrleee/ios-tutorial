@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct CalculatorView: View {
+    @ObservedObject
     var manager: CalculatorViewMode = CalculatorViewMode()
     
     var buttonWidth = (UIScreen.main.bounds.width - 5 * 16) / 4
@@ -30,8 +31,8 @@ struct CalculatorView: View {
                     HStack  {
                         ForEach(row, id: \.self) { button in
                             Button(button.name) {
-                                //                                    button
-                                //                                    print(row)
+                                manager.calculate(value: button.name)
+                                print(manager.state)
                                 print(button)
                             }
                             .frame(maxWidth: .infinity, maxHeight: buttonHeight)

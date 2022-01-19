@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CalcatorButten: String {
+enum CalculatorButton: String {
     case clear, sign, percentage, divide, multiply, subtract, adding, one, two, three, four, five, six, seven, eight, nine, zero, dot, equal, reverse
     
     var name: String {
