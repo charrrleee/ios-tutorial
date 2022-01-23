@@ -21,7 +21,7 @@ class CalculatorViewMode: ObservableObject {
     var val2: Double = 0
     var state: CalculateState = CalculateState.initState
     var operateSymbol: String = ""
-    var display: Double = 0
+    var display: String = "0"
     func add() -> Double {
         return self.val1 + self.val2
     }
@@ -56,20 +56,22 @@ class CalculatorViewMode: ObservableObject {
         val1 = 0
         val2 = 0
         state = CalculateState.initState
-        display = 0
+        display = "0"
     }
     
-    func calculate(value: String) -> String {
+    func calculate(value: String) {
         let isNumber: Bool = value.isNumber
         let isNumberOperator: Bool = value.isNumberOperator
         let isCalculateOperator: Bool = value.isCalculateOperator
+        let isNumberPack: Bool = isNumber || isNumberOperator
         
         if (value == CalculatorButton.clear.name) {
             self.clear()
+            return
         }
         
-        
         if(state == CalculateState.initState) {
+
             if(isNumber) {
                 // do nothing
                 self.val1 = Double(value)!
@@ -77,11 +79,13 @@ class CalculatorViewMode: ObservableObject {
             } else {
                 if(value == CalculatorButton.dot.name) {
                     self.val1 = Double(0.0)
+                    self.display = String("0.")
+                    print(self.display, "???")
                     // todo diplay 0.0
                 }
                 // do nothing
             }
-            return String(val1)
+//            return String(val1)
         } else if(state == CalculateState.inputState) {
             if(isNumber) {
                 self.val1 = Double("\(self.val1)\(value)")!
@@ -136,9 +140,9 @@ class CalculatorViewMode: ObservableObject {
                 } else if(value == CalculatorButton.divide.name) {
                     answer =   String(self.divide())
                 }
-                return answer
+//                return answer
             }
         }
-        return ""
+//        return ""
     }
 }

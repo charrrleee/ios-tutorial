@@ -18,15 +18,14 @@ struct CalculatorView: View {
     
     var body: some View {
         VStack{
-            Text("0")
+            Text(manager.display)
                 .frame(maxWidth: .infinity, maxHeight: buttonHeight)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.trailing)
                 .background(.gray)
             
-            
             VStack  {
-                
+
                 ForEach(manager.buttons, id: \.self) { row in
                     HStack  {
                         ForEach(row, id: \.self) { button in
@@ -34,6 +33,8 @@ struct CalculatorView: View {
                                 manager.calculate(value: button.name)
                                 print(manager.state)
                                 print(button)
+                                print(manager.display, "hahaha")
+
                             }
                             .frame(maxWidth: .infinity, maxHeight: buttonHeight)
                             //                                .padding(.horizontal, 10.0)
