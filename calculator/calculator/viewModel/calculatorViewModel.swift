@@ -10,7 +10,7 @@ import Foundation
 
 class CalculatorViewMode: ObservableObject {
     @Published var buttons: [[CalculatorButton]] = [
-        [.clear, .sign, .percentage, .divide],
+        [.clear, .plusMinus, .percentage, .divide],
         [.seven, .eight, .nine, .multiply],
         [.four, .five, .six, .subtract],
         [.one, .two, .three, .adding],
@@ -23,6 +23,12 @@ class CalculatorViewMode: ObservableObject {
     var state: CalculateState = CalculateState.initState
     var operateSymbol: String = ""
     @Published var display: String = "0"
+    
+    var _isNumber: Bool = false
+    var _isNumberOperator: Bool  = false
+    var _isCalculateOperator: Bool  = false
+    var _isNumberPack: Bool = false
+
     
     
     func add() -> Double {
@@ -41,17 +47,45 @@ class CalculatorViewMode: ObservableObject {
         return (Double(self._val1)! / Double(self._val2)!)
     }
     
-    func toPercentage(val: Double) -> Double {
-        return (Double(self._val1)! / 100)
+    func toPercentage(val: String) -> Double {
+        return (Double(val)! / 100)
     }
     
-    func reverse(val: Double) -> Double {
-        return Double(self._val1)! / -1
+    func toOpposeValue(val: String) -> Double {
+        return Double(val)! / -1
     }
     
-    func toFloatingPoint(val: Double) -> Double {
-        return Double(self._val1)!
-        //        todo fix
+    func toFloatingPoint(val: String) -> String {
+        var value:String = val
+        if(!value.contains(CalculatorButton.dot.name)) {
+            value = value + CalculatorButton.dot.name
+        }
+        return value
+    }
+    
+    
+    func updateVal1(val: String) {
+        self._val1 = self._val1 + val
+        self.display = self._val1
+    }
+    func updateVal2(val: String) {
+        self._val2 = self._val2 + val
+        self.display = self._val2
+    }
+    
+    func _calculate() -> String {
+        var answer: String = ""
+
+        if(operateSymbol == CalculatorButton.adding.name) {
+            answer =  String(self.add())
+        } else if(operateSymbol == CalculatorButton.subtract.name) {
+            answer =   String(self.subtract())
+        } else if(operateSymbol == CalculatorButton.multiply.name) {
+            answer =   String(self.multipy())
+        } else if(operateSymbol == CalculatorButton.divide.name) {
+            answer =   String(self.divide())
+        }
+        return answer;
     }
     
     func clear() {
@@ -63,11 +97,61 @@ class CalculatorViewMode: ObservableObject {
         operateSymbol = ""
     }
     
+    func _calculateVal1(value: String) {
+        if(_isNumber) {
+            updateVal1(val: value)
+            self.display = self._val1
+        } else if(_isNumberOperator) {
+            if(value == CalculatorButton.dot.name) {
+                self._val1 = toFloatingPoint(val: self._val1)
+
+            } else if(value == CalculatorButton.plusMinus.name) {
+                self._val1 = String(toOpposeValue(val: self._val1))
+
+            } else if(value == CalculatorButton.percentage.name) {
+                self._val1 = String(toPercentage(val: self._val1))
+            }
+            self.display = self._val1
+        } else {
+            self.operateSymbol = value
+            state = CalculateState.secondInputState
+        }
+    }
+    
+    func _calculateVal2(value:String) {
+        if(_isNumber) {
+            updateVal2(val: value)
+            state = CalculateState.secondInputState
+        } else if (_isNumberOperator) {
+            if(value == CalculatorButton.dot.name) {
+                self._val2 = toFloatingPoint(val: self._val2)
+            } else if(value == CalculatorButton.plusMinus.name) {
+                self._val2 = String(toOpposeValue(val: self._val2))
+
+            } else if(value == CalculatorButton.percentage.name) {
+                self._val2 = String(toPercentage(val: self._val2))
+            }
+            self.display = self._val2
+        } else {
+            if(_isCalculateOperator || value == CalculatorButton.equal.name) {
+                let answer = self._calculate()
+                self.clear()
+                self._val1 = answer
+                self.display = answer
+                if(_isCalculateOperator) {
+                    operateSymbol = value
+                }
+                state = CalculateState.operationState
+            }
+        }
+    }
+    
     func calculate(value: String) {
-        let isNumber: Bool = value.isNumber
-        let isNumberOperator: Bool = value.isNumberOperator
-        let isCalculateOperator: Bool = value.isCalculateOperator
-        let isNumberPack: Bool = isNumber || isNumberOperator
+        _isNumber = value.isNumber
+        _isNumberOperator = value.isNumberOperator
+        _isCalculateOperator = value.isCalculateOperator
+        _isNumberPack = _isNumber || _isNumberOperator
+
         
         if (value == CalculatorButton.clear.name) {
             self.clear()
@@ -75,8 +159,7 @@ class CalculatorViewMode: ObservableObject {
         }
         
         if(state == CalculateState.initState) {
-
-            if(isNumber) {
+            if(_isNumber) {
                 self._val1 = value
                 state = CalculateState.firstInputState
             } else {
@@ -86,87 +169,39 @@ class CalculatorViewMode: ObservableObject {
             }
             self.display = self._val1
         } else if(state == CalculateState.firstInputState) {
-            if(isNumber) {
-                self._val1 = self._val1 + value
-                self.display = self._val1
-            } else if(isNumberOperator) {
-                if(value == CalculatorButton.dot.name) {
-                    if(!self._val1.contains(CalculatorButton.dot.name)) {
-                        self._val1 = self._val1 + CalculatorButton.dot.name
-                    }
-                } else if(value == CalculatorButton.reverse.name) {
-                    if(self._val1.contains("-")) {
-                        self._val1 = self._val1.substring(from: 1, to: self._val1.count)
-                    } else {
-                        self._val1 = "-" + self._val1
-                    }
-                } else if(value == CalculatorButton.percentage.name) {
-                    self._val1 = String(reverse(val: Double(self._val1)!))
-                }
-                self.display = self._val1
-            } else {
-                self.operateSymbol = value
-                state = CalculateState.operationState
-            }
-            self.display = self._val1
+            _calculateVal1(value: value)
+
         }else if(state == CalculateState.operationState) {
-            if(isNumber) {
-                self._val2 = value
-                self.display = self._val2
-                state = CalculateState.secondInputState
-            } else if (isNumberOperator) {
-                if(value == CalculatorButton.dot.name) {
-                    if(!self._val2.contains(CalculatorButton.dot.name)) {
-                        self._val2 = self._val2 + CalculatorButton.dot.name
-                    }
-                } else if(value == CalculatorButton.reverse.name) {
-                    if(self._val2.contains("-")) {
-                        self._val2 = self._val2.substring(from: 1, to: self._val2.count)
-                    } else {
-                        self._val2 = "-" + self._val2
-                    }
-                } else if(value == CalculatorButton.percentage.name) {
-                    self._val2 = String(reverse(val: Double(self._val2)!))
-                }
-                state = CalculateState.secondInputState
-            } else {
-                // do nothing
-                state = CalculateState.secondInputState
-            }
-            self.display = self._val2
 
-        }else if(state == CalculateState.secondInputState) {
-            var answer: String = ""
-            print(isNumber, isNumberOperator, isCalculateOperator)
-            if(isNumber) {
-                self._val2 = self._val2 + value
-                self.display = self._val2
-            }  else if (isNumberOperator) {
-                if(value == CalculatorButton.dot.name) {
-                    // check value is float or int?
-                } else if(value == CalculatorButton.reverse.name) {
-                    self._val2 = String(self.reverse(val: Double(value)!))
-                } else if(value == CalculatorButton.percentage.name) {
-                    self._val2 = String(self.toPercentage(val: Double(value)!))
+            if(_isCalculateOperator || value == CalculatorButton.equal.name) {
+
+                if (value == CalculatorButton.equal.name) {
+                    self._val1 = self._calculate()
+                    self.display = self._val1
+                    state = CalculateState.secondInputState
+                } else {
+                    self.operateSymbol = value
                 }
-            } else if(isCalculateOperator || value == CalculatorButton.equal.name) {
-                // todo shift state
-                if(operateSymbol == CalculatorButton.adding.name) {
-                    answer =  String(self.add())
-                } else if(operateSymbol == CalculatorButton.subtract.name) {
-                    answer =   String(self.subtract())
-                } else if(operateSymbol == CalculatorButton.multiply.name) {
-                    answer =   String(self.multipy())
-                } else if(operateSymbol == CalculatorButton.divide.name) {
-                    answer =   String(self.divide())
+            } else if(_isNumber) {
+                if(operateSymbol == "") {
+                    clear()
+                    updateVal1(val: value)
+                    state = CalculateState.firstInputState
+                }else{
+                    state = CalculateState.secondInputState
+                    _calculateVal2(value: value)
                 }
-                self.display = answer
                 
-
+            } else if(_isNumberOperator) {
+                _calculateVal1(value: value)
             }
+            
+            
+        }else if(state == CalculateState.secondInputState) {
+            _calculateVal2(value: value)
+
         } else {
             
         }
-//        return ""
     }
 }

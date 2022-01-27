@@ -8,12 +8,12 @@
 import Foundation
 
 enum CalculatorButton: String {
-    case clear, sign, percentage, divide, multiply, subtract, adding, one, two, three, four, five, six, seven, eight, nine, zero, dot, equal, reverse
+    case clear, plusMinus, percentage, divide, multiply, subtract, adding, one, two, three, four, five, six, seven, eight, nine, zero, dot, equal, reverse
     
     var name: String {
         switch self {
         case .clear: return "A/C"
-        case .sign: return "+/-"
+        case .plusMinus: return "+/-"
         case .percentage: return "%"
         case .divide: return "/"
         case .multiply: return "x"
