@@ -13,7 +13,7 @@ extension String {
     }
     
     var isNumberOperator: Bool {
-        return [CalculatorButton.dot.name, CalculatorButton.percentage.name, CalculatorButton.reverse.name].contains(self)
+        return [CalculatorButton.dot.name, CalculatorButton.percentage.name, CalculatorButton.plusMinus.name].contains(self)
     }
     
     var isCalculateOperator: Bool {
