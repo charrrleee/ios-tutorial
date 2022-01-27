@@ -13,16 +13,18 @@ struct CalculatorView: View {
     @ObservedObject
     var manager: CalculatorViewMode = CalculatorViewMode()
     
-    var buttonWidth = (UIScreen.main.bounds.width - 5 * 16) / 4
-    var buttonHeight = (UIScreen.main.bounds.height - 5 * 16) / 6
+    var buttonWidth = (UIScreen.main.bounds.width - 4 * 16) / 4
+    var buttonHeight = (UIScreen.main.bounds.height - 6 * 16) / 6
     
     var body: some View {
         VStack{
-            Text(manager.display)
+            Text(manager.getDisplay())
                 .frame(maxWidth: .infinity, maxHeight: buttonHeight)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.trailing)
-                .background(.gray)
+                .background(Color(red: 40/255, green: 36/255, blue: 37/255))
+                .font(.system(size: 30))
+
             
             VStack  {
 
@@ -31,16 +33,17 @@ struct CalculatorView: View {
                         ForEach(row, id: \.self) { button in
                             Button(button.name) {
                                 manager.calculate(value: button.name)
-                                print("state \(manager.state) | \(manager._val1) | \(manager._val2) | \(manager.operateSymbol) | \(button.name)")
+                                print("state \(manager.state) | \(manager._val1) | \(manager._val2) | \(manager.operateSymbol) | \(manager.display) |\(button.name) ")
 
                             }
                             .frame(maxWidth: .infinity, maxHeight: buttonHeight)
-                            //                                .padding(.horizontal, 10.0)
-                            //                                .padding(.vertical, 5.0)
-                            .background(.gray)
+                            .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Container@*/VStack/*@END_MENU_TOKEN@*/ {
+                                manager.getBgColor(value: button.name)
+                            })
+                            .font(.system(size: 25))
                             
                             .foregroundColor(.white)
-                            .border(.red)
+                            .border(.black)
                             //                                Spacer()
                         }
                     }

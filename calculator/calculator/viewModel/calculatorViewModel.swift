@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 
 class CalculatorViewMode: ObservableObject {
@@ -28,7 +29,16 @@ class CalculatorViewMode: ObservableObject {
     var _isNumberOperator: Bool  = false
     var _isCalculateOperator: Bool  = false
     var _isNumberPack: Bool = false
-
+    
+    func getBgColor(value: String) -> Color{
+        if([CalculatorButton.adding.name, CalculatorButton.multiply.name ,CalculatorButton.divide.name ,CalculatorButton.subtract.name ,CalculatorButton.equal.name].contains(value)) {
+            return Color.orange
+        }else if([CalculatorButton.clear.name,CalculatorButton.plusMinus.name,CalculatorButton.percentage.name].contains(value)) {
+            return  Color(red: 95/255, green: 95/255, blue: 100/255)
+        }else{
+            return  Color(red: 93/255, green: 90/255, blue: 98/255)
+        }
+    }
     
     
     func add() -> Double {
@@ -95,6 +105,16 @@ class CalculatorViewMode: ObservableObject {
         state = CalculateState.initState
         display = "0"
         operateSymbol = ""
+    }
+    
+    func getDisplay() ->String {
+        let v = modf(Double(self.display)!)
+        if(v.1 == 0.0) {
+            return String(format: "%.0f", Double(self.display)!)
+        }
+        print(v.1.exponent)
+//        else if (v.1.exponent)
+        return self.display
     }
     
     func _calculateVal1(value: String) {
@@ -165,6 +185,7 @@ class CalculatorViewMode: ObservableObject {
             } else {
                 if(value == CalculatorButton.dot.name) {
                     self._val1 = String("0.")
+                    state = CalculateState.firstInputState
                 }
             }
             self.display = self._val1
