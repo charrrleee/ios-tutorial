@@ -31,9 +31,7 @@ struct CalculatorView: View {
                         ForEach(row, id: \.self) { button in
                             Button(button.name) {
                                 manager.calculate(value: button.name)
-                                print(manager.state)
-                                print(button)
-                                print(manager.display, "hahaha")
+                                print("state \(manager.state) | \(manager._val1) | \(manager._val2) | \(manager.operateSymbol)")
 
                             }
                             .frame(maxWidth: .infinity, maxHeight: buttonHeight)

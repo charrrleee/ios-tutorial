@@ -7,8 +7,8 @@
 
 enum CalculateState {
     case initState // all the value and operator should be reset to zero or empty string
-    case inputState // first input
+    case firstInputState // first input
     case operationState // input operator
-    case processState  //second input
+    case secondInputState  //second input
     case finishState  // calculated
 }
